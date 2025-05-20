@@ -23,24 +23,25 @@ public class SearchCarsPage extends Page {
     @FindBy(css = PICKUP_LOCATION_AUTOCOMPLETE_INPUT_CSS)
     private WebElement pickupLocationAutocompleteInput;
 
-
-    @Step("wait for Sarch car page loaded")
-    public SearchCarsPage acceptCookiesIfPresent() {
-        waitForPageLoaded(driver);
-
-        doScreenshotOfPage();
-
-        return new SearchCarsPage(driver);
-    }
-
-    @Step("dismiss cookies if present")
-    public SearchCarsPage acceptCookies() {
+    @Step("wait for cookies popup")
+    public SearchCarsPage waitForCookiesPopup() {
 
         waitForElementGetsVisible(driver, By.cssSelector( COOKIE_ACCEPT_ALL_COOKIES_BUTTON_CSS ));
         waitForElementToBeClickable(driver, By.cssSelector( COOKIE_ACCEPT_ALL_COOKIES_BUTTON_CSS ));
         waitForPageLoaded(driver);
+        return new SearchCarsPage(driver);
+    }
+    @Step("accept cookies popup")
+    public SearchCarsPage acceptCookiesPopup(){
         cookiesDismissButton.click();
-        doScreenshotOfPage();
+        waitForElementNotVisible(driver, By.cssSelector(COOKIE_ACCEPT_ALL_COOKIES_BUTTON_CSS));
+
         return this;
+    }
+
+
+    @Step("enter search Criteria {0}")
+    public void searchForParisDestination(String abc){
+
     }
 }

@@ -49,7 +49,9 @@ public class LandingPageTests extends TestSuitesBase implements Screen {
 
         new LandingPage(driver)
             .searchCarPageRedirect()
-            .acceptCookies();
+            .waitForCookiesPopup()   //checkk for visibility of cookies popup
+            .acceptCookiesPopup()    // check that cookies popup disappeared
+            .searchForParisDestination("Paris");
 
 
         softAssertion.assertAll();
