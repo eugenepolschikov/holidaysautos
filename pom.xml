@@ -210,7 +210,7 @@
                     </argLine>
                     <suiteXmlFiles>
                         <suiteXmlFile>
-                            src/test/java/testngconfigs/${testng.suite.name}.xml
+                            src/test/java/com/holidaysautos/testngconfigs/${testng.suite.name}.xml
                         </suiteXmlFile>
                     </suiteXmlFiles>
                 </configuration>
