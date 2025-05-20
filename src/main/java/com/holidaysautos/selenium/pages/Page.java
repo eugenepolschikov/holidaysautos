@@ -1,4 +1,4 @@
-package com.holidaysautos.selenium;
+package com.holidaysautos.selenium.pages;
 
 
 import org.openqa.selenium.WebDriver;

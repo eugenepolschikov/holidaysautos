@@ -25,7 +25,7 @@ public class ElementsUtil {
 
     public static void waitForPageLoaded(WebDriver driver) {
         ExpectedCondition<Boolean> expectation = driver1 -> ((JavascriptExecutor) driver1).executeScript("return document.readyState").equals("complete");
-        Wait<WebDriver> wait = new WebDriverWait(driver, LONG_TIME_INTERVAL_SEC);
+        Wait<WebDriver> wait = new WebDriverWait(driver, MEDIUM_TIME_INTERVAL_SEC);
         wait.until(expectation);
     }
 
@@ -52,7 +52,7 @@ public class ElementsUtil {
 
     public static WebElement fluentWait(WebDriver driver, final By locator) {
         Wait<WebDriver> wait = new FluentWait<>(driver)
-            .withTimeout(ofSeconds(MEDIUM_TIME_INTERVAL_SEC))
+            .withTimeout(ofSeconds(STANDARD_TIME_INTERVAL_SEC))
             .pollingEvery(ofSeconds(SHORTEST_TIME_INTERVAL_SEC / 5))
             .ignoring(NoSuchElementException.class);
         return wait.until(
@@ -60,9 +60,11 @@ public class ElementsUtil {
         );
     }
 
-
     public static void waitForElementGetsVisible(WebDriver driver, WebElement element) {
         new WebDriverWait(driver, MEDIUM_TIME_INTERVAL_SEC).until(ExpectedConditions.visibilityOf(element));
+    }
+    public static void waitForElementGetsVisible(WebDriver driver, By locator) {
+        new WebDriverWait(driver, MEDIUM_TIME_INTERVAL_SEC).until(ExpectedConditions.visibilityOfElementLocated(locator));
     }
 
     public static boolean isElementPresent(WebDriver driver, By locatorKey) {
@@ -90,11 +92,6 @@ public class ElementsUtil {
         wait.until(ExpectedConditions.urlContains(titlePattern));
     }
 
-    public static void waitTillPageUrlChanges(WebDriver driver, String titlePattern, int extendedTimeout) {
-        log.info("waiting {} seconds until page URL contains {}", extendedTimeout, titlePattern);
-        WebDriverWait wait = new WebDriverWait(driver, extendedTimeout);
-        wait.until(ExpectedConditions.urlContains(titlePattern));
-    }
 
     public static void waitUntilRedirectHappensFromParticularPage(WebDriver driver, String pageSubTitle) {
 
@@ -109,6 +106,12 @@ public class ElementsUtil {
 
     public static void jsScrollIntoView(WebDriver driver, WebElement element) {
         ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", element);
+    }
+
+    public static void jsClick(WebDriver driver, String cssSel) {
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        String javascriptCommand = String.format("var x = $('%s');x.click();", cssSel);
+        js.executeScript(javascriptCommand);
     }
 
     public static int getShortestTimeIntervalSec() {
