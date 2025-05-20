@@ -7,5 +7,5 @@ Test framework for e2e functional UI and API tests.
 2. Install maven https://maven.apache.org/download.cgi
 
 3. download chromedriver   https://developer.chrome.com/docs/chromedriver/downloads
-
+NOTE: should be in match with current chrome browser version which is >=136.
 

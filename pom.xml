@@ -179,11 +179,6 @@
                 <directory>src/main/custom-resources/${custom.resource}</directory>
                 <filtering>true</filtering>
             </resource>
-
-            <resource>
-                <directory>src/main/resources</directory>
-                <filtering>true</filtering>
-            </resource>
         </resources>
 
         <plugins>

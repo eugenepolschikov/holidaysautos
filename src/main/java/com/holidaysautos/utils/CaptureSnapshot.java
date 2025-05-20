@@ -25,7 +25,7 @@ public class CaptureSnapshot {
                 File.separator + screenshotNamePattern + "_" + new SimpleDateFormat("yyyyMMddhhmmssSS'.png'").format(new Date());
             File destination = new File(fileNameDestination);
             FileUtils.copyFile(src, destination);
-            log.info("screenshot have been taken and placed\n" + destination.getAbsolutePath());
+            log.info("screenshot have been taken and placed into '{}'", destination.getAbsolutePath());
             return destination.getAbsolutePath();
         } catch (Exception e) {
             log.error("unable to make screenshot");
