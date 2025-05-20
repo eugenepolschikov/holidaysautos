@@ -170,6 +170,13 @@
             </exclusions>
         </dependency>
 
+<!--  fix for the There was an error in the forked process [ERROR] java.lang.NoClassDefFoundError: javax/xml/bind/ValidationEventLocator   -->
+        <dependency>
+            <groupId>javax.xml.bind</groupId>
+            <artifactId>jaxb-api</artifactId>
+            <version>2.3.1</version>
+        </dependency>
+
 
     </dependencies>
 
