@@ -9,3 +9,7 @@ Test framework for e2e functional UI and API tests.
 3. download chromedriver   https://developer.chrome.com/docs/chromedriver/downloads
 NOTE: should be in match with current chrome browser version which is >=136.
 
+### Tests run,  command-line
+`mvn clean test -D"testng.suite.name=functional"  -Pprod`
+Executing TestNG test suite  src/test/java/com/holidaysautos/testngconfigs/functional.xml against 
+prod environment profile.
