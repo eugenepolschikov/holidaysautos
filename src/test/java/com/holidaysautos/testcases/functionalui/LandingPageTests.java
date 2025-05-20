@@ -1,6 +1,7 @@
 package com.holidaysautos.testcases.functionalui;
 
 import com.holidaysautos.core.Screen;
+import com.holidaysautos.models.CarSearchCriteriaDto;
 import com.holidaysautos.selenium.pages.LandingPage;
 import com.holidaysautos.testcases.TestSuitesBase;
 import org.openqa.selenium.WebDriver;
@@ -14,24 +15,28 @@ import ru.yandex.qatools.allure.annotations.Title;
 
 public class LandingPageTests extends TestSuitesBase implements Screen {
 
+    CarSearchCriteriaDto parisCity = new CarSearchCriteriaDto("Paris");
+    CarSearchCriteriaDto searchCriteriaSetStepOne;
 
-    @Title("landing page generic tests flow ")
-    @Features("landing automation")
-    @Stories("landing page verification")
+    @Title("search cars generic tests flow ")
+    @Features("landing and search cars tests automation")
+    @Stories("User is able to search cars")
     @Test(groups = {"END.TO.END"})
     @Parameters({"browser"})
-    public void searchCarsByLocationAndDateRangesTests() {
+    public void searchCarsTests() throws InterruptedException {
 
         //@TODO add validation within the test
         SoftAssert softAssertion = new SoftAssert();
-        log.info("test is starting {}", "now");
 
-
-        new LandingPage(driver)
+        searchCriteriaSetStepOne = new LandingPage(driver)
             .searchCarPageRedirect()
-            .waitForCookiesPopup()   //checkk for visibility of cookies popup
-            .acceptCookiesPopup()    // check that cookies popup disappeared
-            .searchForParisDestination("Paris");
+            .waitForCookiesPopup()   // @TODO check for visibility of cookies popup
+            .acceptCookiesPopup()    // @TODO check that cookies popup disappeared
+            .searchForParisDestination(parisCity)
+            .pickupFirstLocationOptionHappyPath(parisCity)
+            .extractTheDataSetForStepOne();
+
+        Thread.sleep(1500);
 
         softAssertion.assertAll();
 
