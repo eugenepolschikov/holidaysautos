@@ -39,7 +39,9 @@ public class LandingPageTests extends TestSuitesBase implements Screen {
 
         new SearchCarsPage(driver)
             .searchCarsClick()
-            .checkThatCarsFound();
+            .checkThatCarsFound()
+            .sortByPrice()
+            .extractCheapestCarByPrice();
 
         Thread.sleep(1500);
 
