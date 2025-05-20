@@ -3,6 +3,7 @@ package com.holidaysautos.testcases.functionalui;
 import com.holidaysautos.core.Screen;
 import com.holidaysautos.models.CarSearchCriteriaDto;
 import com.holidaysautos.selenium.pages.LandingPage;
+import com.holidaysautos.selenium.pages.SearchCarsPage;
 import com.holidaysautos.testcases.TestSuitesBase;
 import org.openqa.selenium.WebDriver;
 import org.testng.annotations.Parameters;
@@ -18,7 +19,7 @@ public class LandingPageTests extends TestSuitesBase implements Screen {
     CarSearchCriteriaDto parisCity = new CarSearchCriteriaDto("Paris");
     CarSearchCriteriaDto searchCriteriaSetStepOne;
 
-    @Title("search cars generic tests flow ")
+    @Title("search cars generic tests")
     @Features("landing and search cars tests automation")
     @Stories("User is able to search cars")
     @Test(groups = {"END.TO.END"})
@@ -35,6 +36,10 @@ public class LandingPageTests extends TestSuitesBase implements Screen {
             .searchForParisDestination(parisCity)
             .pickupFirstLocationOptionHappyPath(parisCity)
             .extractTheDataSetForStepOne();
+
+        new SearchCarsPage(driver)
+            .searchCarsClick()
+            .checkThatCarsFound();
 
         Thread.sleep(1500);
 

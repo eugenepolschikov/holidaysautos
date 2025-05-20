@@ -4,12 +4,20 @@ import com.holidaysautos.models.CarSearchCriteriaDto;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.logging.LogEntries;
+import org.openqa.selenium.logging.LogEntry;
+import org.openqa.selenium.logging.LogType;
+import org.openqa.selenium.logging.Logs;
 import org.openqa.selenium.support.FindBy;
 import org.testng.Assert;
+import ru.yandex.qatools.allure.annotations.Attachment;
 import ru.yandex.qatools.allure.annotations.Step;
 
+import java.nio.charset.Charset;
 import java.util.List;
+import java.util.logging.Level;
 
+import static com.holidaysautos.selenium.pages.SearchResultsPage.SEARCH_CAR_RESULTS_URL_PATH;
 import static com.holidaysautos.webdriver.ElementsUtil.*;
 
 public class SearchCarsPage extends Page {
@@ -29,14 +37,17 @@ public class SearchCarsPage extends Page {
     private final static String PICKUP_TIME_INPUT_CSS = "#pickupTime";
     private final static String RETURN_DATE_INPUT_CSS = "#returnDate";
     private final static String RETURN_TIME_INPUT_CSS = "#returnTime";
+    private final static String SEARCH_BUTTON_CSS = "button#searchCarsFormBtn-searchcars";
 
     @FindBy(css = COOKIE_ACCEPT_ALL_COOKIES_BUTTON_CSS)
     private WebElement cookiesDismissButton;
     @FindBy(css = PICKUP_LOCATION_AUTOCOMPLETE_INPUT_CSS)
     private WebElement pickupLocationAutocompleteInput;
+    @FindBy(css = SEARCH_BUTTON_CSS)
+    private WebElement searchButton;
 
 
-    @Step("wait for cookies popup")
+    @Step("searchcars: wait for cookies popup")
     public SearchCarsPage waitForCookiesPopup() {
 
         waitForElementGetsVisible(driver, By.cssSelector(COOKIE_ACCEPT_ALL_COOKIES_BUTTON_CSS));
@@ -45,7 +56,7 @@ public class SearchCarsPage extends Page {
         return new SearchCarsPage(driver);
     }
 
-    @Step("accept cookies popup")
+    @Step("searchcars: accept cookies popup")
     public SearchCarsPage acceptCookiesPopup() {
         cookiesDismissButton.click();
         waitForElementNotVisible(driver, By.cssSelector(COOKIE_ACCEPT_ALL_COOKIES_BUTTON_CSS));
@@ -54,7 +65,7 @@ public class SearchCarsPage extends Page {
     }
 
 
-    @Step("enter search Criteria {0}")
+    @Step("searchcars: enter search Criteria {0}")
     public SearchCarsPage searchForParisDestination(CarSearchCriteriaDto searchCriteria) {
         log.info("entering lookup data criteria: {}", searchCriteria.getLocation());
         pickupLocationAutocompleteInput.sendKeys(searchCriteria.getLocation());
@@ -63,7 +74,7 @@ public class SearchCarsPage extends Page {
         return new SearchCarsPage(driver);
     }
 
-    @Step("pick up the first option by Criteria lookup {0}")
+    @Step("searchcars: pick up the first option by Criteria lookup {0}")
     public SearchCarsPage pickupFirstLocationOptionHappyPath(CarSearchCriteriaDto searchCriteria) {
 
 
@@ -80,12 +91,29 @@ public class SearchCarsPage extends Page {
         return this;
     }
 
+    @Step("searchcars: extracting values set from search page")
     public CarSearchCriteriaDto extractTheDataSetForStepOne() {
         searchCriteriaSetStepOne.setPickupDate(driver.findElement(By.cssSelector(PICKUP_DATE_INPUT_CSS)).getAttribute("value"));
         searchCriteriaSetStepOne.setPickupTime(driver.findElement(By.cssSelector(PICKUP_TIME_INPUT_CSS)).getAttribute("value"));
         searchCriteriaSetStepOne.setReturnDate(driver.findElement(By.cssSelector(RETURN_DATE_INPUT_CSS)).getAttribute("value"));
         searchCriteriaSetStepOne.setReturnTime(driver.findElement(By.cssSelector(RETURN_TIME_INPUT_CSS)).getAttribute("value"));
         log.info("data set for all fields, step one '{}'", searchCriteriaSetStepOne.toStringAllFields());
+        postSearchCriteriaSetStepOne(searchCriteriaSetStepOne);
         return searchCriteriaSetStepOne;
+    }
+
+    @Step("searchcars: search button click")
+    public SearchResultsPage searchCarsClick(){
+        log.info("clicking search button");
+        searchButton.click();
+        waitTillPageUrlChanges(driver, SEARCH_CAR_RESULTS_URL_PATH);
+        waitForPageLoaded(driver);
+        return new SearchResultsPage(driver);
+    }
+
+    @Attachment(value = "recording extracted values", type = "text/html")
+    public byte[] postSearchCriteriaSetStepOne(CarSearchCriteriaDto searchCriteriaActual) {
+
+        return (searchCriteriaActual.toStringAllFields()).getBytes(Charset.forName("UTF-8"));
     }
 }
