@@ -13,3 +13,12 @@ NOTE: should be in match with current chrome browser version which is >=136.
 `mvn clean test -D"testng.suite.name=functional"  -Pprod`
 Executing TestNG test suite  src/test/java/com/holidaysautos/testngconfigs/functional.xml against 
 prod environment profile.
+
+
+### HTML report. Publishing the report. 
+Install allure command-line tool (per the guidelines)
+`https://allurereport.org/docs/install/` 
+
+Post-run test results are in the folder
+`[project_root]\target` 
+open the directory, and execute `allure serve` command. 
