@@ -56,6 +56,8 @@ public class SearchResultsPage extends Page {
 
     @Step("Extract cheapest car by price")
     public void extractCheapestCarByPrice() {
+        // ensuring that price for filtered cars sorted ASC
         log.info("picking up the cheapest car");
+
     }
 }

@@ -23,33 +23,17 @@
         <testng.version>6.14.2</testng.version>
         <selenium.version>3.11.0</selenium.version>
         <jsonpath.version>2.2.0</jsonpath.version>
-        <apachepoi.version>3.15</apachepoi.version>
-        <opencsv.version>2.3</opencsv.version>
-        <javaxmail.version>1.5.2</javaxmail.version>
-        <guava.version>27.0.1-jre</guava.version>
         <allure.version>1.5.2</allure.version>
         <yandexallure.latest.version>2.2</yandexallure.latest.version>
         <aspectj.version>1.8.10</aspectj.version>
         <restassured.latest>3.0.3</restassured.latest>
-        <apache.commons.lang3>3.7</apache.commons.lang3>
-
+        <javax.xml.bind.versiop>2.3.1</javax.xml.bind.versiop>
 
         <testng.suite.name>property from commandline</testng.suite.name>
     </properties>
 
     <dependencies>
 
-        <dependency>
-            <groupId>org.hamcrest</groupId>
-            <artifactId>hamcrest-all</artifactId>
-            <version>1.3</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.mockito</groupId>
-            <artifactId>mockito-all</artifactId>
-            <version>1.9.5</version>
-        </dependency>
 
         <dependency>
             <groupId>org.seleniumhq.selenium</groupId>
@@ -100,44 +84,11 @@
             <version>${testng.version}</version>
         </dependency>
 
-
-        <dependency>
-            <groupId>org.apache.poi</groupId>
-            <artifactId>poi</artifactId>
-            <version>${apachepoi.version}</version>
-        </dependency>
-
-
-        <dependency>
-            <groupId>org.apache.poi</groupId>
-            <artifactId>poi-scratchpad</artifactId>
-            <version>${apachepoi.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.apache.poi</groupId>
-            <artifactId>poi-ooxml</artifactId>
-            <version>${apachepoi.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-lang3</artifactId>
-            <version>${apache.commons.lang3}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.google.guava</groupId>
-            <artifactId>guava</artifactId>
-            <version>${guava.version}</version>
-        </dependency>
-
-
         <dependency>
             <groupId>ru.yandex.qatools.allure</groupId>
             <artifactId>allure-testng-adaptor</artifactId>
             <version>${allure.version}</version>
         </dependency>
-
 
         <dependency>
             <groupId>ru.yandex.qatools.allure</groupId>
@@ -151,30 +102,11 @@
             </exclusions>
         </dependency>
 
-
-        <dependency>
-            <groupId>org.aspectj</groupId>
-            <artifactId>aspectjweaver</artifactId>
-            <version>${aspectj.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.uncommons</groupId>
-            <artifactId>reportng</artifactId>
-            <version>1.1.4</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.testng</groupId>
-                    <artifactId>testng</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-
-<!--  fix for the There was an error in the forked process [ERROR] java.lang.NoClassDefFoundError: javax/xml/bind/ValidationEventLocator   -->
+<!-- JAVA11:  fix for the There was an error in the forked process [ERROR] java.lang.NoClassDefFoundError: javax/xml/bind/ValidationEventLocator   -->
         <dependency>
             <groupId>javax.xml.bind</groupId>
             <artifactId>jaxb-api</artifactId>
-            <version>2.3.1</version>
+            <version>${javax.xml.bind.versiop}</version>
         </dependency>
 
 
