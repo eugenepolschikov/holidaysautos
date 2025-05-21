@@ -1,5 +1,7 @@
 package com.holidaysautos.models;
 
+import java.util.Objects;
+
 public class CarSearchCriteriaDto {
     private String location;
     private String pickupDate;
@@ -10,21 +12,22 @@ public class CarSearchCriteriaDto {
     public CarSearchCriteriaDto() {
         this.location = "TBD";
         this.pickupDate = "TBD";
-        this.returnDate ="TBD";
+        this.returnDate = "TBD";
         this.pickupTime = "TBD";
         this.returnTime = "TBD";
     }
+
     public CarSearchCriteriaDto(String location) {
         this.location = location;
         this.pickupDate = "TBD";
-        this.returnDate ="TBD";
+        this.returnDate = "TBD";
         this.pickupTime = "TBD";
         this.returnTime = "TBD";
     }
 
     @Override
     public String toString() {
-        return String.format("location='%s'",location);
+        return String.format("location='%s'", location);
     }
 
     public String toStringAllFields() {
@@ -75,5 +78,22 @@ public class CarSearchCriteriaDto {
 
     public void setReturnTime(String returnTime) {
         this.returnTime = returnTime;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        CarSearchCriteriaDto that = (CarSearchCriteriaDto) o;
+        boolean mandatoryEqualFields = Objects.equals(location, that.location) && Objects.equals(pickupTime, that.pickupTime) && Objects.equals(returnTime, that.returnTime);
+        boolean dates =
+            (pickupDate.contains(that.pickupDate) || that.pickupDate.contains(pickupDate)) &&
+                (returnDate.contains(that.returnDate) || that.returnDate.contains(returnDate));
+        return mandatoryEqualFields && dates;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(location, pickupDate, pickupTime, returnDate, returnTime);
     }
 }

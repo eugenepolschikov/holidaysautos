@@ -1,5 +1,6 @@
 package com.holidaysautos.selenium.pages;
 
+import com.holidaysautos.models.CarDto;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -19,9 +20,14 @@ public class SearchResultsPage extends Page {
     public static final String BTN_UNSELECTED_CSS_STYLE = "ct-sort-buttons__unselected";
     public static final String BTN_SELECTED_CSS_STYLE = "ctc-button ctc-button--primary";
     public static final String PRICE_LIST_ASC_CSS = "div[ct-include*=\"vehicleBlock\"] div.ct-total-price";
+    public static final String MODEL_CAR_LIST_SHORT_DESCRT_CSS = "div[data-auto-id=\"ct-vehicle-block-title\"]";
+    public static final String BOOK_BUTTON_LIST_CSS = "button[ct-tracking=\"book_btn\"]";
+
+    private CarDto carModel;
 
     public SearchResultsPage(WebDriver driver) {
         super(driver);
+        carModel = new CarDto();
     }
 
     public static final String SEARCH_CAR_RESULTS_URL_PATH = "/en/book";
@@ -61,25 +67,39 @@ public class SearchResultsPage extends Page {
     }
 
     @Step("Extract cheapest car by price")
-    public void extractCheapestCarByPrice() {
-        // ensuring that price for filtered cars sorted ASC
-        log.info("picking up the cheapest car");
+    public CarDto extractCheapestCarByPrice() {
+
         waitForPageLoaded(driver);
-        // ensuring that prices are sorted in ASC
+        log.info("ensuring that prices are sorted in ASC");
         List<WebElement> priceList = driver.findElements(By.cssSelector(PRICE_LIST_ASC_CSS));
 
         List<String> parsedPrices = priceList.stream().map(ele -> extractPricePerRegexp(ele.getText())).collect(Collectors.toList());
-
-        for (String iter : parsedPrices) {
-            log.info("####");
-            log.info(iter);
+        log.info("ensuring that prices parsed ASC");
+        Assert.assertTrue(priceList.size() > 0, "oops, no prices for the cars been found. Contact test decelopers for investigation");
+        if (priceList.size() > 1) {
+            for (int iter = 0; iter < parsedPrices.size() - 1; iter++) {
+                Assert.assertTrue(Float.parseFloat(String.valueOf(parsedPrices.get(iter))) <= Float.parseFloat(String.valueOf(parsedPrices.get(iter + 1))), "OOPS prices are not sorted ASC. Please contact test developers for investigation");
+            }
         }
-        //System.out.println("After Applying F
 
+        List<WebElement> carModelList = driver.findElements(By.cssSelector(MODEL_CAR_LIST_SHORT_DESCRT_CSS));
 
-/*        String pattern = "\\d{1,3}(?:[.,]\\d{3})*(?:[.,]\\d{2})";
-        String example = "€ 112";
-        String updated = example.replaceAll(pattern, "$2");
-        log.info("updated: {}",updated);*/
+        carModel.setCarPrice(parsedPrices.get(0));
+        carModel.setCarModelDescription(carModelList.get(0).getText());
+        log.info("picking up the cheapest car '{}'", carModel);
+
+        return carModel;
+    }
+
+    public CarOptionsPage firstCarInTheListClick() {
+        log.info("picking up the first car in the list displayed");
+
+        List<WebElement> carList = driver.findElements(By.cssSelector(BOOK_BUTTON_LIST_CSS));
+        carList.get(0).click();
+        waitForPageLoaded(driver);
+        Object[] windowHandles=driver.getWindowHandles().toArray();
+        driver.switchTo().window((String) windowHandles[1]);
+        return new CarOptionsPage(driver);
+
     }
 }

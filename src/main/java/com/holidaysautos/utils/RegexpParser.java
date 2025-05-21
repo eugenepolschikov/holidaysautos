@@ -12,7 +12,7 @@ public class RegexpParser {
 
 
     public static String extractPricePerRegexp(String stringToParse) {
-        log.info("parsing text by regexp '{}'", PRICE_REGEXP);
+        log.info("parsing text '{}' by regexp '{}'", stringToParse, PRICE_REGEXP);
         String subStringExtracted = "";
         Pattern pattern = Pattern.compile(PRICE_REGEXP);
         Matcher m = pattern.matcher(stringToParse);

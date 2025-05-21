@@ -6,7 +6,8 @@ import com.holidaysautos.utils.PropsLoader;
 import org.openqa.selenium.WebDriver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.testng.annotations.*;
+import org.testng.annotations.AfterTest;
+import org.testng.annotations.BeforeTest;
 
 import static com.holidaysautos.webdriver.ElementsUtil.waitForPageLoaded;
 
