@@ -4,11 +4,11 @@ import com.holidaysautos.core.Screen;
 import com.holidaysautos.models.CarSearchCriteriaDto;
 import com.holidaysautos.selenium.pages.LandingPage;
 import com.holidaysautos.selenium.pages.SearchCarsPage;
+import com.holidaysautos.selenium.pages.SearchResultsPage;
 import com.holidaysautos.testcases.TestSuitesBase;
 import org.openqa.selenium.WebDriver;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-import org.testng.asserts.SoftAssert;
 import ru.yandex.qatools.allure.annotations.Features;
 import ru.yandex.qatools.allure.annotations.Stories;
 import ru.yandex.qatools.allure.annotations.Title;
@@ -22,12 +22,13 @@ public class LandingPageTests extends TestSuitesBase implements Screen {
     @Title("search cars generic tests")
     @Features("landing and search cars tests automation")
     @Stories("User is able to search cars")
-    @Test(groups = {"END.TO.END"})
+    @Test(groups = {"E2E"})
     @Parameters({"browser"})
-    public void searchCarsTests() throws InterruptedException {
+    public void carsSearchTest() {
+
 
         //@TODO add validation within the test
-        SoftAssert softAssertion = new SoftAssert();
+//        SoftAssert softAssertion = new SoftAssert();
 
         searchCriteriaSetStepOne = new LandingPage(driver)
             .searchCarPageRedirect()
@@ -38,17 +39,25 @@ public class LandingPageTests extends TestSuitesBase implements Screen {
             .extractTheDataSetForStepOne();
 
         new SearchCarsPage(driver)
-            .searchCarsClick()
+            .searchCarsClick();
+//        softAssertion.assertAll();
+    }
+
+
+    @Title("pick up the car from search")
+    @Features("car list retrieves after the search")
+    @Stories("User is able to pick up cheapest car")
+    @Test(groups = {"E2E"})
+    @Parameters({"browser"})
+    public void findCheapestCarTest() throws InterruptedException {
+        new SearchResultsPage(driver)
             .checkThatCarsFound()
             .sortByPrice()
             .extractCheapestCarByPrice();
 
         Thread.sleep(1500);
 
-        softAssertion.assertAll();
-
     }
-
 
     @Override
     public WebDriver getDriver() {

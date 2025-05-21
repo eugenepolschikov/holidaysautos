@@ -10,6 +10,10 @@ import ru.yandex.qatools.allure.annotations.Step;
 import static com.holidaysautos.webdriver.ElementsUtil.*;
 
 public class SearchResultsPage extends Page {
+
+    public static final String BTN_UNSELECTED_CSS_STYLE = "ct-sort-buttons__unselected";
+    public static final String BTN_SELECTED_CSS_STYLE = "ctc-button ctc-button--primary";
+
     public SearchResultsPage(WebDriver driver) {
         super(driver);
     }
@@ -27,8 +31,7 @@ public class SearchResultsPage extends Page {
     @Step("checking that cars found")
     public SearchResultsPage checkThatCarsFound() {
         waitForPageLoaded(driver);
-        waitForElementNotVisible(driver, By.cssSelector(TOTAL_CARS_FOUND_CSS));
-        WebElement totalCarsFoundUpd = fluentWait(driver, By.cssSelector(TOTAL_CARS_FOUND_CSS));
+        WebElement totalCarsFoundUpd =   fluentWait(driver, By.cssSelector(TOTAL_CARS_FOUND_CSS));
         int carsFound = Integer.parseInt(totalCarsFoundUpd.getText());
         log.info("total cars found '{}'", carsFound);
         Assert.assertTrue(carsFound > 0, "oops, no cars founds. Contact test developers for futher investigation");
@@ -36,18 +39,23 @@ public class SearchResultsPage extends Page {
     }
 
     @Step("sort by price")
-    public SearchResultsPage sortByPrice(){
+    public SearchResultsPage sortByPrice() {
         log.info("clicking on sort by price");
         priceSort.click();
         waitForPageLoaded(driver);
+        priceSort = driver.findElement(By.cssSelector(PRICE_LOW_TO_HIGH_CSS));
+        log.info("checking that button DONT have CSS class '{}' and have '{}' class applied",
+            BTN_UNSELECTED_CSS_STYLE, BTN_SELECTED_CSS_STYLE);
+        String cssStylesAfterSort = priceSort.getAttribute("class");
+        log.info("styles Price low to high btn '{}'", cssStylesAfterSort);
+        Assert.assertTrue(!cssStylesAfterSort.contains(BTN_UNSELECTED_CSS_STYLE) &&
+            cssStylesAfterSort.contains(BTN_SELECTED_CSS_STYLE));
+
         return new SearchResultsPage(driver);
     }
 
     @Step("Extract cheapest car by price")
-    public void extractCheapestCarByPrice(){
+    public void extractCheapestCarByPrice() {
         log.info("picking up the cheapest car");
     }
-
-
-
 }

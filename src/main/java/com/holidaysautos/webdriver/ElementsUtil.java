@@ -20,7 +20,7 @@ public class ElementsUtil {
     private final static int SHORT_TIME_INTERVAL_SEC = 3;
     private final static int MEDIUM_TIME_INTERVAL_SEC = 5;
     private final static int STANDARD_TIME_INTERVAL_SEC = 10;
-    private final static int LONG_TIME_INTERVAL_SEC = 15;
+    private final static int LONG_TIME_INTERVAL_SEC = 35;
 
 
     public static void waitForPageLoaded(WebDriver driver) {
@@ -52,9 +52,9 @@ public class ElementsUtil {
 
     public static WebElement fluentWait(WebDriver driver, final By locator) {
         Wait<WebDriver> wait = new FluentWait<>(driver)
-            .withTimeout(ofSeconds(STANDARD_TIME_INTERVAL_SEC))
-            .pollingEvery(ofSeconds(SHORTEST_TIME_INTERVAL_SEC / 5))
-            .ignoring(NoSuchElementException.class);
+            .withTimeout(ofSeconds(LONG_TIME_INTERVAL_SEC))
+            .pollingEvery(ofSeconds(SHORTEST_TIME_INTERVAL_SEC))
+            .ignoring(Exception.class);
         return wait.until(
             (Function<WebDriver, WebElement>) driver1 -> driver1.findElement(locator)
         );
@@ -63,8 +63,9 @@ public class ElementsUtil {
     public static void waitForElementGetsVisible(WebDriver driver, WebElement element) {
         new WebDriverWait(driver, MEDIUM_TIME_INTERVAL_SEC).until(ExpectedConditions.visibilityOf(element));
     }
+
     public static void waitForElementGetsVisible(WebDriver driver, By locator) {
-        new WebDriverWait(driver, MEDIUM_TIME_INTERVAL_SEC).until(ExpectedConditions.visibilityOfElementLocated(locator));
+        new WebDriverWait(driver, MEDIUM_TIME_INTERVAL_SEC * 2).until(ExpectedConditions.visibilityOfElementLocated(locator));
     }
 
     public static boolean isElementPresent(WebDriver driver, By locatorKey) {

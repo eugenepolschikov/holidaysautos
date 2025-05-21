@@ -1,12 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
-<suite name="functional UI tests execution" thread-count="1" verbose="8">
+<suite name="E2E cars search tests" thread-count="1" verbose="8">
+
+    <listeners>
+        <listener class-name="com.holidaysautos.listeners.CustomTestListener"/>
+    </listeners>
 
     <test name="tests chrome" thread-count="1">
         <parameter name="browser" value="chrome"/>
         <groups>
             <run>
-                <include name="END.TO.END"/>
+                <include name="E2E"/>
             </run>
         </groups>
         <classes>
