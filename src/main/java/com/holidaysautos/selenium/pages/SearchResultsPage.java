@@ -10,7 +10,9 @@ import ru.yandex.qatools.allure.annotations.Step;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.holidaysautos.webdriver.ElementsUtil.*;
+import static com.holidaysautos.utils.RegexpParser.extractPricePerRegexp;
+import static com.holidaysautos.webdriver.ElementsUtil.fluentWait;
+import static com.holidaysautos.webdriver.ElementsUtil.waitForPageLoaded;
 
 public class SearchResultsPage extends Page {
 
@@ -35,7 +37,7 @@ public class SearchResultsPage extends Page {
     @Step("checking that cars found")
     public SearchResultsPage checkThatCarsFound() {
         waitForPageLoaded(driver);
-        WebElement totalCarsFoundUpd =   fluentWait(driver, By.cssSelector(TOTAL_CARS_FOUND_CSS));
+        WebElement totalCarsFoundUpd = fluentWait(driver, By.cssSelector(TOTAL_CARS_FOUND_CSS));
         int carsFound = Integer.parseInt(totalCarsFoundUpd.getText());
         log.info("total cars found '{}'", carsFound);
         Assert.assertTrue(carsFound > 0, "oops, no cars founds. Contact test developers for futher investigation");
@@ -66,7 +68,12 @@ public class SearchResultsPage extends Page {
         // ensuring that prices are sorted in ASC
         List<WebElement> priceList = driver.findElements(By.cssSelector(PRICE_LIST_ASC_CSS));
 
-            List<String> filterlinks=priceList.stream().map(ele->ele.getText()).collect(Collectors.toList());
+        List<String> parsedPrices = priceList.stream().map(ele -> extractPricePerRegexp(ele.getText())).collect(Collectors.toList());
+
+        for (String iter : parsedPrices) {
+            log.info("####");
+            log.info(iter);
+        }
         //System.out.println("After Applying F
 
 
