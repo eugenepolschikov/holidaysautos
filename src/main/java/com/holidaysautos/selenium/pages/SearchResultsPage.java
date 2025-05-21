@@ -7,12 +7,16 @@ import org.openqa.selenium.support.FindBy;
 import org.testng.Assert;
 import ru.yandex.qatools.allure.annotations.Step;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import static com.holidaysautos.webdriver.ElementsUtil.*;
 
 public class SearchResultsPage extends Page {
 
     public static final String BTN_UNSELECTED_CSS_STYLE = "ct-sort-buttons__unselected";
     public static final String BTN_SELECTED_CSS_STYLE = "ctc-button ctc-button--primary";
+    public static final String PRICE_LIST_ASC_CSS = "div[ct-include*=\"vehicleBlock\"] div.ct-total-price";
 
     public SearchResultsPage(WebDriver driver) {
         super(driver);
@@ -58,6 +62,17 @@ public class SearchResultsPage extends Page {
     public void extractCheapestCarByPrice() {
         // ensuring that price for filtered cars sorted ASC
         log.info("picking up the cheapest car");
+        waitForPageLoaded(driver);
+        // ensuring that prices are sorted in ASC
+        List<WebElement> priceList = driver.findElements(By.cssSelector(PRICE_LIST_ASC_CSS));
 
+            List<String> filterlinks=priceList.stream().map(ele->ele.getText()).collect(Collectors.toList());
+        //System.out.println("After Applying F
+
+
+/*        String pattern = "\\d{1,3}(?:[.,]\\d{3})*(?:[.,]\\d{2})";
+        String example = "€ 112";
+        String updated = example.replaceAll(pattern, "$2");
+        log.info("updated: {}",updated);*/
     }
 }

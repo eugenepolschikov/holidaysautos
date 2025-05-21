@@ -27,7 +27,8 @@
         <yandexallure.latest.version>2.2</yandexallure.latest.version>
         <aspectj.version>1.8.10</aspectj.version>
         <restassured.latest>3.0.3</restassured.latest>
-        <javax.xml.bind.versiop>2.3.1</javax.xml.bind.versiop>
+        <jaxb.api.version>2.3.1</jaxb.api.version>
+        <jaxb.impl.version>2.3.4</jaxb.impl.version>
 
         <testng.suite.name>property from commandline</testng.suite.name>
     </properties>
@@ -103,10 +104,17 @@
         </dependency>
 
 <!-- JAVA11:  fix for the There was an error in the forked process [ERROR] java.lang.NoClassDefFoundError: javax/xml/bind/ValidationEventLocator   -->
+<!-- JAVA18: Caused by: javax.xml.bind.JAXBException: Implementation of JAXB-API has not been found on module path or classpath. fix-->
         <dependency>
             <groupId>javax.xml.bind</groupId>
             <artifactId>jaxb-api</artifactId>
-            <version>${javax.xml.bind.versiop}</version>
+            <version>${jaxb.api.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.sun.xml.bind</groupId>
+            <artifactId>jaxb-impl</artifactId>
+            <version>${jaxb.impl.version}</version>
         </dependency>
 
 
